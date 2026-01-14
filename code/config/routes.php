@@ -8,4 +8,5 @@ $routes = [
     'connexiondb' => 'pages/connectDb.php' ,
     'phpinfo' => 'pages/phpinfo.php',
     '404' => 'errors/404.php',
+    'user' => 'pages/controllers/user.php',
 ];
