@@ -14,8 +14,8 @@ function dd($data) {
 }
 
 function redirect($url) {
-    require $url;
-    die();
-    //header("Location: " . WEB_ROOT . "/" . $url);
-    //exit;
+    //require $url;
+    //die();
+    header("Location: " . WEB_ROOT . "/" . $url);
+    exit;
 }

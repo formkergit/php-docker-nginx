@@ -8,10 +8,10 @@
 </head>
 <body>
     <?php 
-$host = 'db';
-$username = 'root';
-$password = 'root';
-$database = 'phpdb';
+$host = $db['host'];
+$username = $db['username'];
+$password = $db['password'];
+$database = $db['database'];
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
