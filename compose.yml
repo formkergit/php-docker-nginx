@@ -1,0 +1,67 @@
+name: php-docker
+services:
+  web:
+    image: nginx:latest
+    container_name: php-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - php-network
+
+  php:
+    build: ./php
+    container_name: php-fpm
+    volumes:
+      - ./code:/var/www/html
+    networks:
+      - php-network
+
+  db:
+    image: mysql:8.0
+    container_name: php-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: phpdb
+      MYSQL_USER: phpuser
+      MYSQL_PASSWORD: phppass
+    volumes:
+      - db-data:/var/lib/mysql:Z
+    ports:
+      - "3306:3306"
+    networks:
+      - php-network
+
+  adminer:
+    image: adminer:latest
+    container_name: php-adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - php-network
+    depends_on:
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: php-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8082:80"
+    networks:
+      - php-network
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+
+networks:
+  php-network:
+    driver: bridge
