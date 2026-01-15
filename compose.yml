@@ -1,3 +1,4 @@
+# compose.yml
 name: php-docker
 services:
   web:
@@ -58,6 +59,28 @@ services:
       - php-network
     depends_on:
       - db
+
+  composer:
+    image: composer:2
+    container_name: php-composer
+    volumes:
+      - ./code:/app
+    working_dir: /app
+    restart: "no"
+    networks:
+      - php-network
+
+  phpunit:
+    image: php:8.4-cli
+    container_name: php-unit
+    volumes:
+      - ./code:/app
+    working_dir: /app
+    command: ["sleep", "infinity"] 
+    networks:
+      - php-network
+    depends_on:
+      - composer
 
 volumes:
   db-data:
